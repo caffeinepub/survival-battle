@@ -1,0 +1,16 @@
+{
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, handling authentication state with properly named RootComponent, profile setup modal, and routing between tournaments, wallet, and profile pages.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including user profile management, wallet balance, tournament listing/details, and joining tournaments with proper cache invalidation.",
+  "frontend/src/components/auth/AuthStatus.tsx": "Authentication button component that handles Internet Identity sign in/out with loading states and query cache clearing on logout.",
+  "frontend/src/components/auth/PrincipalBadge.tsx": "Displays the user's principal ID in shortened form with copy-to-clipboard functionality.",
+  "frontend/src/components/auth/ProfileSetupModal.tsx": "Modal dialog that prompts new users to set up their display name and Free Fire UID on first login.",
+  "frontend/src/components/layout/AppLayout.tsx": "Main layout component with header navigation, logo, user info, wallet balance display, and footer with responsive mobile navigation.",
+  "frontend/src/components/common/ErrorNotice.tsx": "Reusable error display component that converts backend error messages into user-friendly English text.",
+  "frontend/src/pages/LandingPage.tsx": "Landing page for unauthenticated users featuring hero section with background image, feature cards, and sign-in call-to-action.",
+  "frontend/src/pages/TournamentsPage.tsx": "Tournament listing page displaying all available tournaments with status badges, entry fees, participant limits, and navigation to details.",
+  "frontend/src/pages/TournamentDetailsPage.tsx": "Detailed tournament view with join functionality, validation for Free Fire UID requirement, balance checking, and user-friendly error handling.",
+  "frontend/src/pages/WalletPage.tsx": "Wallet management page showing current balance, placeholder top-up information, and transaction history section with usage instructions.",
+  "frontend/src/pages/ProfilePage.tsx": "User profile settings page for editing display name and Free Fire UID with validation, success feedback, and account information display.",
+  "frontend/src/index.css": "Global styles with OKLCH color system featuring orange/charcoal esports theme for both light and dark modes.",
+  "frontend/tailwind.config.js": "Tailwind configuration with custom orange primary color, Inter font family, and esports-themed design tokens."
+}

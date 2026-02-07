@@ -1,0 +1,132 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-internet-identity-authentication-so-users-can-sign-in-out-and-the-app-can-identify-the-current-user-by-principal",
+      "featureTitle": "Add Internet Identity authentication so users can sign in/out and the app can identify the current user by Principal.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/AuthStatus.tsx",
+        "frontend/src/components/auth/PrincipalBadge.tsx",
+        "frontend/src/main.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-frontend-tournament-experience-browse-tournaments-open-tournament-details-and-join-a-tournament-show-join-status-and-any-errors-e-g-insufficient-funds-already-joined",
+      "featureTitle": "Add a frontend tournament experience: browse tournaments, open tournament details, and join a tournament; show join status and any errors (e.g., insufficient funds, already joined).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/common/ErrorNotice.tsx",
+        "frontend/src/pages/TournamentDetailsPage.tsx",
+        "frontend/src/pages/TournamentsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-frontend-wallet-screen-that-shows-current-balance-recent-ledger-entries-and-a-clearly-labeled-placeholder-top-up-flow-no-external-payment-integration",
+      "featureTitle": "Add a frontend wallet screen that shows current balance, recent ledger entries, and a clearly-labeled placeholder top-up flow (no external payment integration).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/WalletPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-frontend-profile-settings-screen-allowing-the-signed-in-user-to-set-update-their-display-name-and-free-fire-player-uid-and-require-a-free-fire-uid-before-allowing-tournament-join",
+      "featureTitle": "Add a frontend profile/settings screen allowing the signed-in user to set/update their display name and Free Fire player UID, and require a Free Fire UID before allowing tournament join.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/ProfilePage.tsx",
+        "frontend/src/pages/TournamentDetailsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-coherent-visual-theme-for-the-app-distinctive-game-tournament-vibe-and-apply-it-consistently-across-layout-typography-buttons-cards-and-navigation-avoid-blue-purple-as-primary-colors",
+      "featureTitle": "Create a coherent visual theme for the app (distinctive, game/tournament vibe) and apply it consistently across layout, typography, buttons, cards, and navigation (avoid blue/purple as primary colors).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-generated-static-image-assets-to-support-the-theme-logo-and-background-illustrations-and-render-them-from-frontend-public-assets-generated-without-routing-through-the-backend",
+      "featureTitle": "Add generated static image assets to support the theme (logo and background/illustrations) and render them from frontend/public/assets/generated without routing through the backend.",
+      "files": [
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/pages/TournamentsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

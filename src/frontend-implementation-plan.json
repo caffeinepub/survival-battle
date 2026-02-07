@@ -1,0 +1,209 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Free Fire Tournament App (Frontend): II auth, wallet, tournaments, profile, and theme",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add Internet Identity sign in/out UI and show current user identity (Principal short form) with refresh persistence.",
+      "acceptanceCriteria": [
+        "App shows a clear signed-out state with a Sign in button",
+        "After signing in, UI shows the logged-in user's identity (e.g., Principal short form) and a Sign out action",
+        "Signed-in state persists across refreshes via the existing Internet Identity hook/agent approach (without editing immutable hook files)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/auth/AuthStatus.tsx",
+          "operation": "create",
+          "description": "Create an auth status control (Sign in/Sign out) using the existing useInternetIdentity hook and React Query cache clearing on logout. Use the authorization component guidance for login/logout cache clearing and signed-out state handling. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/PrincipalBadge.tsx",
+          "operation": "create",
+          "description": "Create a small visual badge to display the current Principal in a short form for signed-in users, with accessible copy-to-clipboard support. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Add top-level app shell that renders a clear signed-out state and the authenticated navigation layout (including AuthStatus/PrincipalBadge). Ensure it relies on the existing InternetIdentityProvider from main.tsx for refresh persistence (do not edit immutable hook files). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/main.tsx",
+          "operation": "modify",
+          "description": "Ensure the React Query client and InternetIdentityProvider remain the root wrappers and are compatible with auth-driven cache invalidation (no changes to immutable hooks). Wire in the newly created App.tsx if needed."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Implement tournament browsing, tournament details view, and join action with live UI updates and user-friendly errors.",
+      "acceptanceCriteria": [
+        "Tournaments list screen renders tournaments with status, start time, entry fee, and slots",
+        "Tournament detail screen shows tournament info and a Join button when eligible",
+        "After joining, UI updates to reflect joined state without requiring a full page refresh",
+        "User-facing error messages are in English and actionable (e.g., 'Insufficient wallet balance to pay the entry fee.')"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useTournaments.ts",
+          "operation": "create",
+          "description": "Create React Query hooks to list tournaments and fetch tournament details using the generated backend typings (backendInterface). Ensure errors are normalized into actionable English messages for the UI."
+        },
+        {
+          "path": "frontend/src/hooks/useJoinTournament.ts",
+          "operation": "create",
+          "description": "Create a React Query mutation hook to join a tournament and invalidate/refetch tournament detail and relevant list queries so UI updates without full refresh."
+        },
+        {
+          "path": "frontend/src/pages/TournamentsPage.tsx",
+          "operation": "create",
+          "description": "Create tournaments list screen that renders tournament cards/rows (status, start time, entry fee, slots) and supports navigating to details. Use shadcn-ui components (e.g., Card, Button, Badge, Skeleton) by composing them (do not edit frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/TournamentDetailsPage.tsx",
+          "operation": "create",
+          "description": "Create tournament detail screen that shows tournament info and Join action, displaying joined/disabled states and English error messages. Wire join flow to the join mutation and live updates. Use shadcn-ui components by composition (no edits in frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/common/ErrorNotice.tsx",
+          "operation": "create",
+          "description": "Create a reusable inline error notice component to show actionable English messages for join failures (e.g., insufficient funds, already joined, not authenticated). Use shadcn-ui Alert/Toast patterns if available via composition (no edits in frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the Tournaments page and Tournament Details page into the app navigation and routing so users can browse and open details. Ensure navigation is accessible from the app shell."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Add wallet screen showing balance, recent ledger entries, and a demo placeholder top-up flow.",
+      "acceptanceCriteria": [
+        "Wallet screen shows balance for signed-in user and a table/list of recent transactions (type, amount, timestamp, note)",
+        "Top-up UI indicates it is a demo/placeholder and results in a backend-recorded credit entry and updated balance",
+        "If the user is signed out, wallet screen prompts them to sign in"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useWallet.ts",
+          "operation": "create",
+          "description": "Create React Query hooks to fetch wallet balance (and recent ledger entries if exposed by the backend capability). Ensure hooks handle signed-out states gracefully and surface readable errors."
+        },
+        {
+          "path": "frontend/src/hooks/useTopUpWallet.ts",
+          "operation": "create",
+          "description": "Create a React Query mutation hook for demo/placeholder top-up, with query invalidation to refresh the balance/entries immediately after success."
+        },
+        {
+          "path": "frontend/src/pages/WalletPage.tsx",
+          "operation": "create",
+          "description": "Create wallet screen UI showing signed-in balance and recent transactions list/table, plus a clearly labeled demo top-up flow (no real payments). If signed out, show a sign-in prompt. Use shadcn-ui components by composition (no edits in frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Wallet page into navigation and routing so it is reachable from the app shell (Tournaments / Wallet / Profile)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Add profile/settings screen to edit display name and Free Fire UID; block joining tournaments if UID is missing and direct users to Profile.",
+      "acceptanceCriteria": [
+        "Profile screen allows editing and saving display name and Free Fire UID",
+        "Join tournament action is blocked with a clear English message if Free Fire UID is missing (and directs user to Profile)",
+        "Backend validates Free Fire UID is a non-empty string when provided and returns a clear error for invalid input"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useUserProfile.ts",
+          "operation": "create",
+          "description": "Create React Query hooks for getCallerUserProfile and saveCallerUserProfile with proper loading/fetched semantics (avoid profile-setup flash per authorization component guidance). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ProfilePage.tsx",
+          "operation": "create",
+          "description": "Create profile/settings screen for signed-in users to edit and save display name and Free Fire player UID; handle backend validation errors as clear English messages. Use shadcn-ui form inputs/buttons by composition (no edits in frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/TournamentDetailsPage.tsx",
+          "operation": "modify",
+          "description": "Enforce 'Free Fire UID required' before allowing Join: check the current caller profile and block join with a clear English message that links/navigates to Profile."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Profile page into navigation and routing so users can reach it directly from the app shell and from join-blocking prompts."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Apply a consistent esports/tournament visual theme (avoid blue/purple primary) and add clear navigation structure.",
+      "acceptanceCriteria": [
+        "App uses a consistent color palette and typography across all screens (e.g., dark esports style with orange/charcoal accents)",
+        "All primary actions (Sign in, Join, Top up, Save) share a consistent button style",
+        "Layout includes a clear navigation structure (e.g., sidebar or top nav) for Tournaments, Wallet, Profile"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Define app-wide theme tokens and base styles (dark esports vibe with orange/charcoal accents; avoid blue/purple primary), leveraging Tailwind CSS variables used by shadcn-ui (no edits within frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust theme configuration only as needed to support the new palette and consistent UI styling across buttons/cards/navigation (keeping Tailwind + shadcn variable approach)."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a shared layout component (top nav or sidebar) that provides consistent navigation links for Tournaments, Wallet, Profile and applies the themed styling. Use shadcn-ui components by composition (no edits in frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Adopt AppLayout across all routed pages and ensure primary actions (Sign in, Join, Top up, Save) use consistent button variants/styles."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Add required generated static images under frontend/public/assets/generated and render them directly in the UI.",
+      "acceptanceCriteria": [
+        "All required generated images exist under frontend/public/assets/generated with the exact filenames specified",
+        "App references these images directly as static assets (no backend calls to fetch images)",
+        "Images are visible in the UI (e.g., logo in header, background/hero used in landing/tournaments page) without layout shifts or broken links"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/ff-tourney-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated static logo asset at the exact required path and filename: frontend/public/assets/generated/ff-tourney-logo.dim_512x512.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/ff-tourney-hero-bg.dim_1600x900.png",
+          "operation": "create",
+          "description": "Add the generated wide hero background asset at the exact required path and filename: frontend/public/assets/generated/ff-tourney-hero-bg.dim_1600x900.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/ff-badges-set.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated tournament badge icons asset at the exact required path and filename: frontend/public/assets/generated/ff-badges-set.dim_512x512.png."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "modify",
+          "description": "Render the logo from frontend/public/assets/generated/ff-tourney-logo.dim_512x512.png in the header/nav and apply the hero background from frontend/public/assets/generated/ff-tourney-hero-bg.dim_1600x900.png to the tournaments area without backend image fetching. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/TournamentsPage.tsx",
+          "operation": "modify",
+          "description": "Display the badge artwork from frontend/public/assets/generated/ff-badges-set.dim_512x512.png (e.g., as decorative icons for statuses/tiers) and ensure images load without broken links or layout shifts."
+        }
+      ]
+    }
+  ]
+}

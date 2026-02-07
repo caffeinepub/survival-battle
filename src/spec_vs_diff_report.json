@@ -1,0 +1,170 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-07T10:05:32.215Z",
+  "summary": "Implemented major frontend scaffolding for Internet Identity auth, navigation, tournaments pages, wallet page, and profile pages, plus a new backend actor with profile/wallet/tournament-related types and some APIs. However, several BuildRequest acceptance criteria are either not evidenced in the diff (notably stable persistence, wallet ledger retrieval/top-up flow, full tournament fields/details, and required generated image assets), and there are extra admin/access-control features not requested.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Profile data is persisted in canister stable storage and can be retrieved after redeploy (no data loss within the same canister instance).",
+      "reason": "backend/main.mo shows in-memory Maps/vars for userProfiles but the diff excerpt provides no evidence of stable variables and/or preupgrade/postupgrade hooks to persist/restore state.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Backend exposes a method to fetch current wallet balance and recent ledger entries for the signed-in user.",
+      "reason": "Frontend only calls getCallerWalletBalance; there is no frontend query hook for 'recent ledger entries' and WalletPage renders a placeholder 'Transaction history will appear here'. The backend excerpt shows a walletLedger Map/type but does not show a query method returning entries.",
+      "evidence": [
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/WalletPage.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Backend exposes a method to add funds (top-up) as a placeholder flow (clearly not real payments) and records a ledger entry.",
+      "reason": "WalletPage only toggles an informational alert and explicitly directs the user to contact an administrator; no top-up mutation is wired. The diff does not show a user-invoked placeholder top-up call.",
+      "evidence": [
+        "frontend/src/pages/WalletPage.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Balance never becomes negative; insufficient funds returns a clear error.",
+      "reason": "TournamentDetailsPage does a client-side balance check, but the diff excerpt provides no evidence that backend joinTournament atomically prevents negative balances and returns a clear insufficient-funds error (backend join logic is not shown in the truncated snippet).",
+      "evidence": [
+        "frontend/src/pages/TournamentDetailsPage.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Backend can return a list of tournaments with key fields (id, name, game, start time, entry fee, max slots, current slots, status).",
+      "reason": "Frontend expects listTournaments() returning PublicTournamentDetails[], but PublicTournamentDetails type shown in backend lacks several required fields (id, game, current slots, status, joined players).",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/TournamentsPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Backend can return tournament details including joined players (at least their Principal or display name).",
+      "reason": "backend/main.mo shows tournamentParticipants state, but the PublicTournamentDetails shown does not include participants, and getTournamentDetails implementation is not evidenced in the truncated diff.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Join operation enforces rules (authenticated, tournament open, cannot join twice, cannot exceed max slots) and deducts entry fee atomically when applicable.",
+      "reason": "Frontend calls actor.joinTournament, but the backend joinTournament implementation is not shown in the truncated diff, so rule enforcement and atomic fee deduction cannot be verified from evidence provided.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Wallet screen shows a table/list of recent transactions (type, amount, timestamp, note).",
+      "reason": "WalletPage renders a static placeholder for transaction history and does not query or display ledger entries.",
+      "evidence": [
+        "frontend/src/pages/WalletPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Top-up UI indicates it is a demo/placeholder and results in a backend-recorded credit entry and updated balance.",
+      "reason": "WalletPage indicates demo mode but does not execute any backend credit/top-up; it instructs contacting an administrator instead of performing a placeholder top-up flow that records a ledger entry.",
+      "evidence": [
+        "frontend/src/pages/WalletPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Backend validates Free Fire UID is a non-empty string when provided and returns a clear error for invalid input.",
+      "reason": "Profile input is sent as optional freeFireUid; backend validation logic is not visible in the truncated portion of saveCallerUserProfile, so non-empty validation and error text cannot be confirmed.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "All required generated images exist under frontend/public/assets/generated with the exact filenames specified.",
+      "reason": "The UI references the required filenames, but the diff summary does not show any added files under frontend/public/assets/generated; omitted files are not identified as these assets, so existence cannot be verified from provided evidence.",
+      "evidence": [
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/pages/LandingPage.tsx",
+        "frontend/src/pages/TournamentsPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "App renders the set of 3 tournament badge icons (bronze, silver, gold) from frontend/public/assets/generated.",
+      "reason": "No UI usage of the badges set is shown, and the diff does not evidence the badge image asset files being added.",
+      "evidence": [
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/pages/LandingPage.tsx",
+        "frontend/src/pages/TournamentsPage.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Admin/access-control initialization via a secret 'caffeineAdminToken' URL parameter and backend authorization mixins.",
+      "reason": "BuildRequest does not request admin-token-based access control initialization or secret URL parameters; it only requires Internet Identity auth for users and placeholder wallet flows.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useActor.ts",
+        "frontend/src/utils/urlParams.ts"
+      ]
+    },
+    {
+      "description": "Admin credit wallet mutation hook (adminCreditWallet) and role retrieval (getCallerUserRole).",
+      "reason": "BuildRequest requires a user-facing placeholder top-up flow, not an admin-credit mechanism and role APIs. These admin operations are not requested in the requirements.",
+      "evidence": [
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "description": "Tournament payout and custom wallet transaction types in the backend.",
+      "reason": "BuildRequest only specifies ledger entries for balance-affecting events (admin credit, tournament entry fees) and placeholder top-up; payout/custom transaction types are extra and not requested.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "confidence": 0.64,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/AuthStatus.tsx",
+    "frontend/src/components/auth/PrincipalBadge.tsx",
+    "frontend/src/components/auth/ProfileSetupModal.tsx",
+    "frontend/src/components/common/ErrorNotice.tsx",
+    "frontend/src/components/layout/AppLayout.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/pages/ProfilePage.tsx",
+    "frontend/src/pages/TournamentDetailsPage.tsx",
+    "frontend/src/pages/TournamentsPage.tsx",
+    "frontend/src/pages/WalletPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

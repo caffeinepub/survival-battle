@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Create a Free Fire tournament app featuring user login, wallet, and tournament joining functionality.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Esports-style app logo with flame + trophy motif, dark background, orange/charcoal palette (ff-tourney-logo.dim_512x512.png)\n- Wide hero background with subtle Free Fire tournament atmosphere (abstract arena lighting, no text), dark with orange highlights (ff-tourney-hero-bg.dim_1600x900.png)\n- Set of 3 tournament badge icons (bronze, silver, gold), flat vector style, transparent background (ff-badges-set.dim_512x512.png)",
+  "existing_features": [
+    {
+      "id": "feature-add-internet-identity-authentication-so-users-can-sign-in-out-and-the-app-can-identify-the-current-user-by-principal",
+      "title": "Add Internet Identity authentication so users can sign in/out and the app can identify the current user by Principal.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-frontend-tournament-experience-browse-tournaments-open-tournament-details-and-join-a-tournament-show-join-status-and-any-errors-e-g-insufficient-funds-already-joined",
+      "title": "Add a frontend tournament experience: browse tournaments, open tournament details, and join a tournament; show join status and any errors (e.g., insufficient funds, already joined).",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-frontend-wallet-screen-that-shows-current-balance-recent-ledger-entries-and-a-clearly-labeled-placeholder-top-up-flow-no-external-payment-integration",
+      "title": "Add a frontend wallet screen that shows current balance, recent ledger entries, and a clearly-labeled placeholder top-up flow (no external payment integration).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-frontend-profile-settings-screen-allowing-the-signed-in-user-to-set-update-their-display-name-and-free-fire-player-uid-and-require-a-free-fire-uid-before-allowing-tournament-join",
+      "title": "Add a frontend profile/settings screen allowing the signed-in user to set/update their display name and Free Fire player UID, and require a Free Fire UID before allowing tournament join.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-coherent-visual-theme-for-the-app-distinctive-game-tournament-vibe-and-apply-it-consistently-across-layout-typography-buttons-cards-and-navigation-avoid-blue-purple-as-primary-colors",
+      "title": "Create a coherent visual theme for the app (distinctive, game/tournament vibe) and apply it consistently across layout, typography, buttons, cards, and navigation (avoid blue/purple as primary colors).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-generated-static-image-assets-to-support-the-theme-logo-and-background-illustrations-and-render-them-from-frontend-public-assets-generated-without-routing-through-the-backend",
+      "title": "Add generated static image assets to support the theme (logo and background/illustrations) and render them from frontend/public/assets/generated without routing through the backend.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Implement user login/authentication system",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Implement in-app wallet (balance tracking, top-up/withdrawal placeholders or flow)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Implement tournament browsing and joining system",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Implement backend user profile storage keyed by caller Principal, including fields needed for tournaments: display name (optional), Free Fire player UID (string), and createdAt/updatedAt timestamps.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Implement an in-app wallet system with a persisted balance per user (numeric), and wallet ledger entries for balance-affecting events (e.g., admin credit, tournament entry fees).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Create tournament data model and backend APIs to list tournaments, view tournament details, and allow a signed-in user to join a tournament (with optional entry fee deducted from wallet).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Free Fire Tournament App: Internet Identity login, wallet balance, and tournament joining",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
